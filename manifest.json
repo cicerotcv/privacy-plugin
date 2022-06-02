@@ -1,0 +1,20 @@
+{
+  "manifest_version": 2,
+  "name": "PrivacyPlugin",
+  "description": "Privacy plugin developed during the final project of Tecnologias Hacker subject at Insper to detect websites' invasive behaviors towards web browser",
+  "version": "0.0.1",
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*/",
+        "https://*/*"
+      ],
+      "css": [
+        "./styles.css"
+      ]
+    }
+  ]
+}
