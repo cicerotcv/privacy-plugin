@@ -1,0 +1,15 @@
+{
+  "name": "privacy-plugin",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start:firefox": "web-ext run --source-dir ./src --nightly",
+    "start": "web-ext run --source-dir src --browser-console",
+    "build": "web-ext build --source-dir src --overwrite-dest"
+  },
+  "devDependencies": {
+    "web-ext": "^7.0.0"
+  },
+  "repository": "https://github.com/cicerotcv/privacy-plugin",
+  "license": "MIT"
+}
