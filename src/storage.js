@@ -1,14 +1,14 @@
-// // STORAGE ----------------------------------------
+// // // STORAGE ----------------------------------------
 
-// const showAllLocalStorage = async (tabs) => {
-//     let tab = tabs.pop();
+// const showAllLocalStorage = async (dict) => {
+//     // let tab = dict.pop();
 //     var listHTML = document.getElementById('local-storage-list');
 //     var sizeHTML = document.getElementById('size-local-storage');
 //     let localStorageLength = 0;
 
-//     const response = await browser.tabs.sendMessage(tab.id, {
-//       method: "localStorageData"
-//     });
+//     // const response = await browser.dict.sendMessage(tab.id, {
+//     //   method: "localStorageData"
+//     // });
 
 //     var websiteSecurity = document.getElementById('local-storage-security-status');
 //     var localStorageSecurity = document.getElementById('local-storage-status');
@@ -89,5 +89,5 @@
 //     }
 //   }
 
-// getActiveTab().then(showAllLocalStorage);
-// getActiveTab().then(showAllSessionStorage);
+// // getActiveTab().then(showAllLocalStorage);
+// // getActiveTab().then(showAllSessionStorage);

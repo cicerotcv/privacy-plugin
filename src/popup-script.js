@@ -38,12 +38,13 @@ class Handlers {
       amount: links.length
     };
   }
+
 }
 
 const MessageHandler = {
   LOCAL_STORAGE: Handlers.localStorage,
   SESSION_STORAGE: Handlers.sessionStorage,
-  EXTERNAL_LINKS: Handlers.externalLinks
+  EXTERNAL_LINKS: Handlers.externalLinks,
 };
 
 browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -54,16 +55,16 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
   // console.log({ [request.method]: data });
 
   sendResponse({ data });
-
-  // if (request.method == 'localStorageData') {
+  // if (request.method == 'domains') {
+  //   sendResponse({ data: ExternalLinks.getAll() });
+  // } else if (request.method == 'localStorageData') {
   //   sendResponse({ data: Object.entries(localStorage) });
   // } else if (request.method == 'sessionStorageData') {
   //   sendResponse({ data: Object.entries(sessionStorage) });
   // } else if (request.method == 'ExternalLinks') {
   //   const externalLinks = ExternalLinks.getAll();
   //   sendResponse({ data: externalLinks });
-  // }
-  // else if (request.method == "canvasFingerprintData"){
-  //     sendResponse({data: canvasFingerprint()});
+  // } else if (request.method == "canvasFingerprintData"){
+  //   sendResponse({data: canvasFingerprint()});
   // }
 });

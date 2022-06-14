@@ -15,6 +15,12 @@ const showCookies = async (activeTab) => {
   Cookies.updateCookiesRisk(cookies);
 };
 
+const showDomains = async (activeTab) => {
+  const response = await browser.tabs.sendMessage(activeTab.id, {
+    method: 'DOMAINS'
+  });
+};
+
 // SESSION STORAGE ----------------------------------------
 const showSessionStorage = async (activeTab) => {
   const response = await browser.tabs.sendMessage(activeTab.id, {
@@ -35,10 +41,9 @@ const showLocalStorage = async (activeTab) => {
   });
   const localStorage = response.data;
 
-  return;
-  var websiteSecurity = document.getElementById(
-    'local-storage-security-status'
-  );
+  //return;
+
+  var websiteSecurity = document.getElementById( 'local-storage-security-status');
   var localStorageSecurity = document.getElementById('local-storage-status');
 
   if (response.data.length > 0) {
@@ -51,37 +56,35 @@ const showLocalStorage = async (activeTab) => {
         listHTML.appendChild(li);
       }
     }
-    let sizeContent = document.createTextNode(
-      'Number of items: ' + localStorageLength
-    );
+    let sizeContent = document.createTextNode( 'Number of items: ' + localStorageLength );
     sizeHTML.appendChild(sizeContent);
-    // if (localstoragelen > 50){
-    //   websiteSecurity.style.color = "#FF0000";
+    if (localstoragelen > 50){
+      websiteSecurity.style.color = "#FF0000";
 
-    //   let localStorageRiskText = document.createElement("p");
-    //   let localStoragePercentage = document.createTextNode("Risk: HIGH");
-    //   localStorageRiskText.appendChild(localStoragePercentage);
-    //   percentageOfLocalStorage.appendChild(localStorageRiskText);
+      let localStorageRiskText = document.createElement("p");
+      let localStoragePercentage = document.createTextNode("Risk: HIGH");
+      localStorageRiskText.appendChild(localStoragePercentage);
+      percentageOfLocalStorage.appendChild(localStorageRiskText);
 
-    //   localStorageSecurity.setAttribute("value", "50");
-    // } else if (localstoragelen > 25 && localstoragelen < 50){
+      localStorageSecurity.setAttribute("value", "50");
+    } else if (localstoragelen > 25 && localstoragelen < 50){
 
-    //   let localStorageRiskText = document.createElement("p");
-    //   let localStoragePercentage = document.createTextNode("Risk: MEDIU");
-    //   localStorageRiskText.appendChild(localStoragePercentage);
-    //   percentageOfLocalStorage.appendChild(localStorageRiskText);
+      let localStorageRiskText = document.createElement("p");
+      let localStoragePercentage = document.createTextNode("Risk: MEDIU");
+      localStorageRiskText.appendChild(localStoragePercentage);
+      percentageOfLocalStorage.appendChild(localStorageRiskText);
 
-    //   localStorageSecurity.setAttribute("value", localstoragelen.toString());
-    //   websiteSecurity.style.color = "#FFFF00";
-    // } else {
+      localStorageSecurity.setAttribute("value", localstoragelen.toString());
+      websiteSecurity.style.color = "#FFFF00";
+    } else {
 
-    //   let localStorageRiskText = document.createElement("p");
-    //   let localStoragePercentage = document.createTextNode("Risk: LOW");
-    //   localStorageRiskText.appendChild(localStoragePercentage);
-    //   percentageOfLocalStorage.appendChild(localStorageRiskText);
+      let localStorageRiskText = document.createElement("p");
+      let localStoragePercentage = document.createTextNode("Risk: LOW");
+      localStorageRiskText.appendChild(localStoragePercentage);
+      percentageOfLocalStorage.appendChild(localStorageRiskText);
 
-    //   localStorageSecurity.setAttribute("value", localstoragelen.toString());
-    // }
+      localStorageSecurity.setAttribute("value", localstoragelen.toString());
+    }
   } else {
     let noLocalStorageTag = document.createElement('h4');
     let noLocalStorageData = document.createTextNode('No storage in this tab.');
