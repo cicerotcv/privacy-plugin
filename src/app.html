@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div class="panel">
+    <div class="header-panel">
+      <h1 id="website-security-status">Website is secure</h1>
+      <h3 id="score"></h3>
+    </div>
+
+    <!-- COOKIE SECTION -->
+    <details class="cookies-information">
+      <summary class="text-section-header" id="cookies-security-status">
+        Cookies information
+      </summary>
+      <div id="header-title" class="header-title"></div>
+      <h3 id="number-cookies"></h3>
+      <p>
+      <div class="cookies-security">
+        <h3 id="percentage-cookies"></h3>
+        <!-- <meter value="0" max="100" id="cookies-status"></meter> -->
+      </div>
+      </p>
+      <h2>All cookies:</h2>
+      <ul id="cookie-list"></ul>
+    </details>
+
+    <!-- LOCAL STORAGE SECTION -->
+    <details class="local-storage-information">
+      <summary class="text-section-header" id="local-storage-security-status">
+        Local Storage information:
+      </summary>
+      <div id="header-title-local-storage" class="header-title"></div>
+      <h3 id="size-local-storage"></h3>
+      <div class="local-storage-security"></div>
+
+      <h3 id="percentage-local-storage"></h3>
+      <!-- <h2>All data in local storage:</h2> -->
+      <p>Local storage usage: <span id="local-storage-usage"></span></p>
+    </details>
+    
+    <!-- SESSION STORAGE SECTION -->
+    <details class="session-storage-information">
+      <summary class="text-section-header" id="session-storage-security-status">
+        Session Storage information:
+      </summary>
+      <div id="header-title-session-storage" class="header-title"></div>
+      <h3 id="size-session-storage"></h3>
+      <div class="session-storage-security"></div>
+      <h3 id="percentage-session-storage"></h3>
+      <!-- <h2>All data in session storage:</h2> -->
+      <p>Session storage usage: <span id="session-storage-usage"></span></p>
+    </details>
+
+    <!-- THIRD CONEXION DOMAINS -->
+    <details class="domains-information">
+      <summary class="text-section-header" id="domains-security-status">
+        Domains:
+      </summary>
+      <div id="header-title-domains" class="header-title"></div>
+      <h3 id="size-domains"></h3>
+      <div class="domains-security"></div>
+      <h3 id="percentage-domains"></h3>
+      <!-- <h2>All data in session storage:</h2> -->
+      <p>Domains usage: <span id="domains-usage"></span></p>
+    </details>
+
+    <!-- <details class="third-party-information">
+      <summary class="text-section-header">
+        Domains:
+      </summary>
+      <h3 id="size-third-party"></h3>
+      <h2>All domains:</h2>
+      <ul id="third-party-list"></ul>
+    </details> -->
+  </div>
+
+
+  <!-- <script src="./external-links.js"></script> -->
+  <script src="./cookies.js"></script>
+  <script src="./main.js"></script>
+  <script src="./domains.js"></script>
+</body>
+
+</html>
