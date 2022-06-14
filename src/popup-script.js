@@ -1,11 +1,11 @@
 class Handlers {
   static _storage(storageType) {
     const entries = Object.entries(storageType);
-    const parsed = entries.map(([key, storedValue]) => [
-      key,
-      JSON.parse(storedValue.trim())
-    ]);
-    return Object.fromEntries(parsed);
+    // const parsed = entries.map(([key, storedValue]) => [
+    //   key,
+    //   // JSON.parse(storedValue.trim())
+    // ]);
+    return Object.fromEntries(entries);
   }
 
   static localStorage() {

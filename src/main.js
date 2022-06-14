@@ -16,79 +16,127 @@ const showCookies = async (activeTab) => {
 };
 
 const showDomains = async (activeTab) => {
-  const response = await browser.tabs.sendMessage(activeTab.id, {
-    method: 'DOMAINS'
-  });
+  // const response = await browser.tabs.sendMessage(activeTab.id, {
+  //   method: 'DOMAINS'
+  // });
 };
 
 // SESSION STORAGE ----------------------------------------
 const showSessionStorage = async (activeTab) => {
+  const listHTML = document.getElementById('session-storage-list');
+  const sizeHTML = document.getElementById('size-session-storage');
   const response = await browser.tabs.sendMessage(activeTab.id, {
     method: 'SESSION_STORAGE'
   });
   const sessionStorage = response.data;
+  const sessionStorageLength = Object.keys(sessionStorage).length;
   console.log(sessionStorage);
+
+  const sessionStorageUsage = document.getElementById('session-storage-usage');
+  const ssText = document.createTextNode(String(sessionStorageLength));
+  sessionStorageUsage.appendChild(ssText);
+
+  const websiteSecurity = document.getElementById(
+    'session-storage-security-status'
+  );
+
+  if (sessionStorageLength > 0) {
+    let sizeContent = document.createTextNode(
+      'Number of items: ' + sessionStorageLength
+    );
+
+    sizeHTML.appendChild(sizeContent);
+
+    const percentageOfLocalStorage = document.getElementById(
+      'percentage-session-storage'
+    );
+
+    if (sessionStorageLength > 50) {
+      websiteSecurity.style.color = '#FF0000';
+
+      let sessionStorageRiskText = document.createElement('p');
+      let sessionStoragePercentage = document.createTextNode('Risk: HIGH');
+
+      sessionStorageRiskText.appendChild(sessionStoragePercentage);
+      percentageOfLocalStorage.appendChild(sessionStorageRiskText);
+    } else if (sessionStorageLength > 25 && sessionStorageLength < 50) {
+      let sessionStorageRiskText = document.createElement('p');
+      let sessionStoragePercentage = document.createTextNode('Risk: MEDIUM');
+      sessionStorageRiskText.appendChild(sessionStoragePercentage);
+      percentageOfLocalStorage.appendChild(sessionStorageRiskText);
+
+      websiteSecurity.style.color = '#FFFF00';
+    } else {
+      let sessionStorageRiskText = document.createElement('p');
+      let sessionStoragePercentage = document.createTextNode('Risk: LOW');
+      sessionStorageRiskText.appendChild(sessionStoragePercentage);
+      percentageOfLocalStorage.appendChild(sessionStorageRiskText);
+      websiteSecurity.style.color = '#19a319';
+    }
+  } else {
+    let noSessionStorageData = document.createElement('h4');
+    let noLocalStorageData = document.createTextNode('No storage in this tab.');
+    noSessionStorageData.appendChild(noLocalStorageData);
+    listHTML.appendChild(noSessionStorageData);
+  }
 };
 
 // LOCAL STORAGE ------------------------------------------
 const showLocalStorage = async (activeTab) => {
   const listHTML = document.getElementById('local-storage-list');
   const sizeHTML = document.getElementById('size-local-storage');
-  const localStorageLength = 0;
 
   const response = await browser.tabs.sendMessage(activeTab.id, {
     method: 'LOCAL_STORAGE'
   });
+
   const localStorage = response.data;
+  const localStorageLength = Object.keys(localStorage).length;
 
-  //return;
+  const localStorageUsage = document.getElementById('local-storage-usage');
+  const lsText = document.createTextNode(String(localStorageLength));
+  localStorageUsage.appendChild(lsText);
 
-  var websiteSecurity = document.getElementById( 'local-storage-security-status');
-  var localStorageSecurity = document.getElementById('local-storage-status');
+  const websiteSecurity = document.getElementById(
+    'local-storage-security-status'
+  );
 
-  if (response.data.length > 0) {
-    for (let item of response.data) {
-      if (item) {
-        localStorageLength++;
-        let li = document.createElement('li');
-        let content = document.createTextNode(item);
-        li.appendChild(content);
-        listHTML.appendChild(li);
-      }
-    }
-    let sizeContent = document.createTextNode( 'Number of items: ' + localStorageLength );
+  if (localStorageLength > 0) {
+    let sizeContent = document.createTextNode(
+      'Number of items: ' + localStorageLength
+    );
+
     sizeHTML.appendChild(sizeContent);
-    if (localstoragelen > 50){
-      websiteSecurity.style.color = "#FF0000";
 
-      let localStorageRiskText = document.createElement("p");
-      let localStoragePercentage = document.createTextNode("Risk: HIGH");
+    const percentageOfLocalStorage = document.getElementById(
+      'percentage-local-storage'
+    );
+
+    if (localStorageLength > 50) {
+      websiteSecurity.style.color = '#FF0000';
+
+      let localStorageRiskText = document.createElement('p');
+      let localStoragePercentage = document.createTextNode('Risk: HIGH');
+
+      localStorageRiskText.appendChild(localStoragePercentage);
+      percentageOfLocalStorage.appendChild(localStorageRiskText);
+    } else if (localStorageLength > 25 && localStorageLength < 50) {
+      let localStorageRiskText = document.createElement('p');
+      let localStoragePercentage = document.createTextNode('Risk: MEDIUM');
       localStorageRiskText.appendChild(localStoragePercentage);
       percentageOfLocalStorage.appendChild(localStorageRiskText);
 
-      localStorageSecurity.setAttribute("value", "50");
-    } else if (localstoragelen > 25 && localstoragelen < 50){
-
-      let localStorageRiskText = document.createElement("p");
-      let localStoragePercentage = document.createTextNode("Risk: MEDIU");
-      localStorageRiskText.appendChild(localStoragePercentage);
-      percentageOfLocalStorage.appendChild(localStorageRiskText);
-
-      localStorageSecurity.setAttribute("value", localstoragelen.toString());
-      websiteSecurity.style.color = "#FFFF00";
+      websiteSecurity.style.color = '#FFFF00';
     } else {
-
-      let localStorageRiskText = document.createElement("p");
-      let localStoragePercentage = document.createTextNode("Risk: LOW");
+      let localStorageRiskText = document.createElement('p');
+      let localStoragePercentage = document.createTextNode('Risk: LOW');
       localStorageRiskText.appendChild(localStoragePercentage);
       percentageOfLocalStorage.appendChild(localStorageRiskText);
-
-      localStorageSecurity.setAttribute("value", localstoragelen.toString());
+      websiteSecurity.style.color = '#19a319';
     }
   } else {
     let noLocalStorageTag = document.createElement('h4');
     let noLocalStorageData = document.createTextNode('No storage in this tab.');
-
     noLocalStorageTag.appendChild(noLocalStorageData);
     listHTML.appendChild(noLocalStorageTag);
   }
