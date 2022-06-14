@@ -63,7 +63,8 @@ li {
 }
 
 .cookies-security,
-.local-storage-security {
+.local-storage-security,
+.domains-security {
   margin: 30px 0;
 }
 

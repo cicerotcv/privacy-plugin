@@ -15,9 +15,67 @@ const showCookies = async (activeTab) => {
   Cookies.updateCookiesRisk(cookies);
 };
 
+// DOMAINS -----------------------------------------------------
 const showDomains = async (activeTab) => {
-  // const response = await browser.tabs.sendMessage(activeTab.id, {
-  //   method: 'DOMAINS'
+  // let tab = tabs.pop();
+  // var DomainsList = document.getElementById('third-party-list');
+
+  const response = await browser.tabs.sendMessage(activeTab.id, {
+    method: "DOMAINS"
+  });
+  const domains = response.data;
+  console.log(domains);
+  const domainsLength = Object.keys(domains).length;
+  
+  // var Domains = response.data.links;
+  // var numberOfLinks = response.data.numberOfLinks;
+  const domainsUsage = document.getElementById('domains-usage');
+  const ddText = document.createTextNode(String(domainsLength));
+  domainsUsage.appendChild(ddText);
+
+  const websiteSecurity = document.getElementById('domains-security-status');
+  if (domainsLength > 0) {
+    const percentageOfdomains = document.getElementById(
+      'percentage-session-storage'
+    );
+
+    if (domainsLength > 50) {
+      websiteSecurity.style.color = '#FF0000';
+
+      let domainsRiskText = document.createElement('p');
+      let domainsPercentage = document.createTextNode('Risk: HIGH');
+
+      domainsRiskText.appendChild(domainsPercentage);
+      percentageOfdomains.appendChild(domainsRiskText);
+    } else if (domainsLength > 25 && domainsLength < 50) {
+      let domainsRiskText = document.createElement('p');
+      let domainsPercentage = document.createTextNode('Risk: MEDIUM');
+      domainsRiskText.appendChild(domainsPercentage);
+      percentageOfdomains.appendChild(domainsRiskText);
+
+      websiteSecurity.style.color = '#FFFF00';
+    } else {
+      let domainsRiskText = document.createElement('p');
+      let domainsPercentage = document.createTextNode('Risk: LOW');
+      domainsRiskText.appendChild(domainsPercentage);
+      percentageOfdomains.appendChild(domainsRiskText);
+      websiteSecurity.style.color = '#19a319';
+    }
+  } else {
+    let noDomainsData = document.createElement('h4');
+    let noDomainData = document.createTextNode('No domain in this tab.');
+    noDomainsData.appendChild(noDomainData);
+    listHTML.appendChild(noDomainsData);
+  }
+
+  // var sizeLinks = document.getElementById("size-third-party");
+  // var sizeLinksText = document.createTextNode("Number of external links: " + numberOfLinks);
+  // sizeLinks.appendChild(sizeLinksText);
+
+  // Domains.map(domain => {
+  //   var li = document.createElement('li');
+  //   li.innerText = domain;
+  //   DomainsList.appendChild(li);
   // });
 };
 
@@ -41,11 +99,11 @@ const showSessionStorage = async (activeTab) => {
   );
 
   if (sessionStorageLength > 0) {
-    let sizeContent = document.createTextNode(
-      'Number of items: ' + sessionStorageLength
-    );
+    // let sizeContent = document.createTextNode(
+    //   'Number of items: ' + sessionStorageLength
+    // );
 
-    sizeHTML.appendChild(sizeContent);
+    // sizeHTML.appendChild(sizeContent);
 
     const percentageOfLocalStorage = document.getElementById(
       'percentage-session-storage'
@@ -102,11 +160,11 @@ const showLocalStorage = async (activeTab) => {
   );
 
   if (localStorageLength > 0) {
-    let sizeContent = document.createTextNode(
-      'Number of items: ' + localStorageLength
-    );
+    // let sizeContent = document.createTextNode(
+    //   'Number of items: ' + localStorageLength
+    // );
 
-    sizeHTML.appendChild(sizeContent);
+    // sizeHTML.appendChild(sizeContent);
 
     const percentageOfLocalStorage = document.getElementById(
       'percentage-local-storage'
@@ -188,6 +246,7 @@ function onSuccess(activeTab) {
   showCookies(activeTab);
   showLocalStorage(activeTab);
   showSessionStorage(activeTab);
+  showDomains(activeTab); 
 }
 
 // em caso de erro

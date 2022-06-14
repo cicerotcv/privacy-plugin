@@ -18,6 +18,16 @@ class Handlers {
     return Handlers._storage(sessionStorage);
   }
 
+  static _domains(domainsType) {
+    const entries = Object.entries(domainsType);
+    return Object.fromEntries(entries);
+  }
+
+  static domains() {
+    if (!domains) return {};
+    return Handlers._domains(domains);
+  }
+
   static externalLinks() {
     const tags = [
       'link',
@@ -45,6 +55,7 @@ const MessageHandler = {
   LOCAL_STORAGE: Handlers.localStorage,
   SESSION_STORAGE: Handlers.sessionStorage,
   EXTERNAL_LINKS: Handlers.externalLinks,
+  DOMAINS: Handlers.domains,
 };
 
 browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
