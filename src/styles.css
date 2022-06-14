@@ -73,8 +73,8 @@ li {
   list-style: none;
 }
 #cookie-list .cookie-name {
-  background-color: red;
   font-weight: bold;
+  margin-right: 1rem;
 }
 
 progress {

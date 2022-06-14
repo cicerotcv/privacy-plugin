@@ -1,32 +1,22 @@
-// EXTERNAL LINKS -------------------------------------------
-const showExternalLinks = async (activeTab) => {
-  const { data } = await browser.tabs.sendMessage(activeTab.id, {
-    method: 'EXTERNAL_LINKS'
-  });
-  console.log(data);
-};
-
 // COOKIES --------------------------------------------------
 
 const showCookies = async (activeTab) => {
   const cookies = await Cookies.getAll(activeTab.url);
-  console.log(cookies);
   Cookies.updateCookiesList(cookies);
   Cookies.updateCookiesRisk(cookies);
+  return cookies.length;
 };
 
-// DOMAINS -----------------------------------------------------
-const showDomains = async (activeTab) => {
-  // let tab = tabs.pop();
-  // var DomainsList = document.getElementById('third-party-list');
-
+// EXTERNAL LINKS -------------------------------------------
+const showExternalLinks = async (activeTab) => {
   const response = await browser.tabs.sendMessage(activeTab.id, {
-    method: "DOMAINS"
+    method: 'EXTERNAL_LINKS'
   });
   const domains = response.data;
+  const domainsLength = domains.amount;
+
   console.log(domains);
-  const domainsLength = Object.keys(domains).length;
-  
+
   // var Domains = response.data.links;
   // var numberOfLinks = response.data.numberOfLinks;
   const domainsUsage = document.getElementById('domains-usage');
@@ -35,9 +25,7 @@ const showDomains = async (activeTab) => {
 
   const websiteSecurity = document.getElementById('domains-security-status');
   if (domainsLength > 0) {
-    const percentageOfdomains = document.getElementById(
-      'percentage-session-storage'
-    );
+    const percentageOfdomains = document.getElementById('percentage-domains');
 
     if (domainsLength > 50) {
       websiteSecurity.style.color = '#FF0000';
@@ -67,16 +55,7 @@ const showDomains = async (activeTab) => {
     noDomainsData.appendChild(noDomainData);
     listHTML.appendChild(noDomainsData);
   }
-
-  // var sizeLinks = document.getElementById("size-third-party");
-  // var sizeLinksText = document.createTextNode("Number of external links: " + numberOfLinks);
-  // sizeLinks.appendChild(sizeLinksText);
-
-  // Domains.map(domain => {
-  //   var li = document.createElement('li');
-  //   li.innerText = domain;
-  //   DomainsList.appendChild(li);
-  // });
+  return domainsLength;
 };
 
 // SESSION STORAGE ----------------------------------------
@@ -137,6 +116,7 @@ const showSessionStorage = async (activeTab) => {
     noSessionStorageData.appendChild(noLocalStorageData);
     listHTML.appendChild(noSessionStorageData);
   }
+  return sessionStorageLength;
 };
 
 // LOCAL STORAGE ------------------------------------------
@@ -198,23 +178,29 @@ const showLocalStorage = async (activeTab) => {
     noLocalStorageTag.appendChild(noLocalStorageData);
     listHTML.appendChild(noLocalStorageTag);
   }
+  return localStorageLength;
 };
 
 // SCORE DE SEGURANÇA
-const calculateScore = () => {
-  var websiteSecurity = document.getElementById('website-security-status');
-  var scoreTag = document.getElementById('score');
-  var cookiesData = document
-    .getElementById('cookies-status')
-    .getAttribute('value');
+const calculateScore = (
+  cookiesAmount,
+  localStorageUsage,
+  sessionStorageUsage,
+  externalLinksUsage
+) => {
+  const websiteSecurity = document.getElementById('website-security-status');
+  const scoreTag = document.getElementById('score');
 
-  var cookiesScore = parseInt(cookiesData);
+  const score =
+    cookiesAmount +
+    localStorageUsage +
+    sessionStorageUsage +
+    externalLinksUsage;
 
-  var scoreProgressBar = document.getElementById('score-progress-bar');
+  console.log('Score:', score);
 
-  var score = cookiesScore;
   let cookiesText = document.createElement('p');
-  // dando erro aqui ???????
+
   let cookiesContent = document.createTextNode('score: ' + score);
   cookiesText.appendChild(cookiesContent);
   scoreTag.appendChild(cookiesText);
@@ -240,13 +226,18 @@ async function getActiveTab() {
 }
 
 // em caso de sucesso
-function onSuccess(activeTab) {
+async function onSuccess(activeTab) {
   if (!activeTab) return;
-  showExternalLinks(activeTab);
-  showCookies(activeTab);
-  showLocalStorage(activeTab);
-  showSessionStorage(activeTab);
-  showDomains(activeTab); 
+  const cookiesAmount = await showCookies(activeTab);
+  const externalLinksUsage = await showExternalLinks(activeTab);
+  const localStorageUsage = await showLocalStorage(activeTab);
+  const sessionStorageUsage = await showSessionStorage(activeTab);
+  calculateScore(
+    cookiesAmount,
+    localStorageUsage,
+    sessionStorageUsage,
+    externalLinksUsage
+  );
 }
 
 // em caso de erro

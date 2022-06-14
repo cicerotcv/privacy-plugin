@@ -53,7 +53,6 @@ class Cookies {
   static updateCookiesRisk(cookies) {
     const percentageOfCookies = document.getElementById('percentage-cookies');
     const websiteSecurity = document.getElementById('cookies-security-status');
-    const cookiesSecurity = document.getElementById('cookies-status');
 
     function createRiskElement(riskLevel) {
       const cookiesRiskText = document.createElement('p');
@@ -81,17 +80,14 @@ class Cookies {
       websiteSecurity.style.color = riskCategories.HIGH.color;
       const cookiesRiskText = createRiskElement(riskCategories.HIGH.name);
       percentageOfCookies.appendChild(cookiesRiskText);
-      cookiesSecurity.setAttribute('value', 100);
     } else if (cookies.length > 50 && cookies.length < 100) {
       websiteSecurity.style.color = riskCategories.MEDIUM.color;
       const cookiesRiskText = createRiskElement(riskCategories.MEDIUM.name);
       percentageOfCookies.appendChild(cookiesRiskText);
-      cookiesSecurity.setAttribute('value', cookies.length);
     } else {
       websiteSecurity.style.color = riskCategories.LOW.color;
       const cookiesRiskText = createRiskElement(riskCategories.LOW.name);
       percentageOfCookies.appendChild(cookiesRiskText);
-      cookiesSecurity.setAttribute('value', cookies.length);
     }
   }
 }
